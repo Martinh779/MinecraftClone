@@ -1,0 +1,67 @@
+//
+// Created by Martin Hertel on 09.02.2024.
+//
+
+#include "Game.h"
+#include "../Utils/Logger.h"
+#include "../Player/Player.h"
+#include <iostream>
+
+namespace Minecraft {
+    int Game::handleWindow() {
+        // Initialize GLFW
+        glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+        // Create a GLFW window
+        GLFWwindow *window = glfwCreateWindow(1280, 720, "Minecraft", NULL, NULL);
+        if (window == NULL) {
+            std::cout << "Failed to create GLFW window" << std::endl;
+            glfwTerminate();
+            return -1;
+        }
+        glfwMakeContextCurrent(window);
+
+        // Load all OpenGL function pointers using GLAD
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+            std::cout << "Failed to initialize GLAD" << std::endl;
+            return -1;
+        }
+
+        Player player = Player();
+        World world = World();
+
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+        // Render loop
+        while (!glfwWindowShouldClose(window)) {
+            glEnable(GL_DEPTH_TEST);
+            // Process input
+            player.update(window);
+
+            // Clear the screen
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // Render the world
+            world.renderWorld();
+
+            // Swap buffers and poll events
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+
+        // Terminate GLFW
+        glfwTerminate();
+        return 0;
+    }
+
+    void Game::processInput(GLFWwindow *window) {
+        // Close the window if the ESC key is pressed
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, true);
+        }
+    }
+}
