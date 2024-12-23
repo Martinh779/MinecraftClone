@@ -8,7 +8,7 @@
 
 namespace Minecraft {
 
-    Player* Player::instance = nullptr;
+    Player* Player::m_instance = nullptr;
 
 
     Player::Player() = default;
@@ -18,10 +18,10 @@ namespace Minecraft {
 
 
     Player* Player::getInstance() {
-        if (instance == nullptr) {
-            instance = new Player();
+        if (m_instance == nullptr) {
+            m_instance = new Player();
         }
-        return instance;
+        return m_instance;
     }
 
 

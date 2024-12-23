@@ -5,19 +5,36 @@
 #ifndef MINECRAFTCLONE_LOGGER_H
 #define MINECRAFTCLONE_LOGGER_H
 
+#include <cstdarg>
 #include <map>
 #include <string>
 #include "glad/glad.h"
+#include "glm/vec3.hpp"
 
-#define checkIfError(message) GL::Logger::errorCheck(__FILE__, __LINE__, message)
+#define CHECK_IF_GL_ERROR(message) Utils::Logger::glErrorCheck(__FILE__, __LINE__, message)
+#define CHECK_VECTOR(message, vector) Utils::Logger::vectorCheck(message, vector)
+#define LOG(message, type, arg) Utils::Logger::log(message, type, (arg))
 
-namespace GL {
+#define LOG_INFO Utils::LogType::INFO
+#define LOG_WARNING Utils::LogType::WARNING
+#define LOG_ERROR Utils::LogType::ERROR
+
+namespace Utils {
+
+    enum class LogType {
+        INFO,
+        WARNING,
+        ERROR,
+    };
 
     class Logger {
     public:
-        static void errorCheck();
+        static void glErrorCheck(const char* file, int line, const char* message);
 
-        static void errorCheck(const char* file, int line, const char* message);
+        static void vectorCheck(const char* message, const glm::vec3 &vector);
+
+        template<typename... Args>
+        static void log(const char* message, LogType type, Args... args);
 
     private:
         inline static std::map<GLenum, std::string> errorMap = {
@@ -32,6 +49,6 @@ namespace GL {
         };
     };
 
-} // GL
+} // Utils
 
 #endif //MINECRAFTCLONE_LOGGER_H

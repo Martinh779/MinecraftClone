@@ -16,7 +16,14 @@ namespace Minecraft {
         int handleWindow();
 
     private:
-        void processInput(GLFWwindow *window);
+        static void processInput(GLFWwindow *window);
+
+        float deltaTime = 0.0f;
+        float lastFrame = 0.0f;
+        int frameCount = 0;
+        int fps = 0.0f;
+
+        void updateFPS();
     };
 } // Minecraft
 #endif //MINECRAFTCLONE_GAME_H

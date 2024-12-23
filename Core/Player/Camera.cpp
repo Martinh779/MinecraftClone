@@ -9,16 +9,16 @@
 
 namespace Minecraft {
 
-    Camera* Camera::instance = nullptr;
+    Camera* Camera::m_instance = nullptr;
 
     /**
-     * Singleton instance
+     * Singleton m_instance
      */
     Camera* Camera::getInstance() {
-        if (instance == nullptr) {
-            instance = new Camera();
+        if (m_instance == nullptr) {
+            m_instance = new Camera();
         }
-        return instance;
+        return m_instance;
     }
 
 
@@ -121,7 +121,7 @@ namespace Minecraft {
 
 
     Camera::~Camera() {
-        delete instance;
-        instance = nullptr;
+        delete m_instance;
+        m_instance = nullptr;
     }
 } // Minecraft

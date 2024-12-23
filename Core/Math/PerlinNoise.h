@@ -11,17 +11,27 @@ namespace Math {
 
     class PerlinNoise {
     public:
-        std::vector<int> p;
+        static PerlinNoise* getInstance();
 
-        PerlinNoise();
+        std::vector<int> permutation;
+
         PerlinNoise(unsigned int seed);
 
-        double noise(double x, double y, double z);
+        int calculatePerlin(double x, double y);
+
+    protected:
+        double frequency = 0.0015;
+        int minRange = 50;
+        int maxRange = 200;
 
     private:
+        static PerlinNoise* instance;
+
         double fade(double t);
+
         double lerp(double t, double a, double b);
-        double grad(int hash, double x, double y, double z);
+
+        double grad(int ix, int iy, double x, double y);
     };
 
 } // Minecraft

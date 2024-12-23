@@ -10,8 +10,7 @@ namespace GL {
 
         VertexArray::VertexArray() {
             glGenVertexArrays(1, &m_VAO);
-            std::cout << "Generated m_VAO: " << m_VAO << std::endl;
-            checkIfError("Failed to generate m_VAO");
+            CHECK_IF_GL_ERROR("Failed to generate m_VAO");
         }
 
         VertexArray::~VertexArray() {
@@ -20,7 +19,7 @@ namespace GL {
 
         void VertexArray::bind() {
             glBindVertexArray(m_VAO);
-            checkIfError("Failed to bind m_VAO");
+            CHECK_IF_GL_ERROR("Failed to bind m_VAO");
         }
 
         void VertexArray::unbind() {
@@ -30,6 +29,6 @@ namespace GL {
         void VertexArray::setAttributePointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer) {
             glVertexAttribPointer(index, size, type, normalized, stride, pointer);
             glEnableVertexAttribArray(index);
-            checkIfError("Failed to set attribute pointer");
+            CHECK_IF_GL_ERROR("Failed to set attribute pointer");
         }
 } // GL

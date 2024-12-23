@@ -24,7 +24,7 @@ namespace Minecraft {
         void processInput(GLFWwindow *window);
 
     private:
-        static Player* instance;
+        static Player* m_instance;
     };
 
 } // Minecraft

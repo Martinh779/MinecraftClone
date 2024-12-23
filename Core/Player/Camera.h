@@ -12,8 +12,8 @@ namespace Minecraft {
 
     class Camera {
     private:
-        // Singleton instance
-        static Camera* instance;
+        // Singleton m_instance
+        static Camera* m_instance;
 
     public:
         static Camera* getInstance();
@@ -43,7 +43,7 @@ namespace Minecraft {
 
         float yaw = -90.0f;
         float pitch = 0.0f;
-        float speed = 0.05f;
+        float speed = 0.5f;
         float sensitivity = 0.1f;
 
         // Mouse input

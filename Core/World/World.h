@@ -6,10 +6,12 @@
 #define MINECRAFTCLONE_WORLD_H
 
 
-#include "../Rendering/BlockModel.h"
+#include "BlockModel.h"
 #include "../Rendering/Shader.h"
 #include "Chunk.h"
 #include <vector>
+
+#define CHUNK_COUNT 4
 
 namespace Minecraft {
 
@@ -22,12 +24,13 @@ namespace Minecraft {
 
         void renderWorld();
 
-    private:
-        //BlockModel testBlock;
+        void generateNewChunks();
 
-        Chunk chunk;
-        Shader m_blockShader = Shader("X:\\Programming\\Projects\\C\\MinecraftClone\\Core\\Shaders\\Block_Vertex.vs",
-                                    "X:\\Programming\\Projects\\C\\MinecraftClone\\Core\\Shaders\\Block_Fragment.fs");
+    private:
+        Shader m_blockShader = Shader(R"(G:\Programming\Projects\C\MinecraftClone\Core\Shaders\Block_Vertex.vs)",
+                                    R"(G:\Programming\Projects\C\MinecraftClone\Core\Shaders\Block_Fragment.fs)");
+
+        std::vector<Chunk> m_chunks;
     };
 } // Minecraft
 #endif //MINECRAFTCLONE_WORLD_H
