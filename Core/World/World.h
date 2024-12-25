@@ -11,7 +11,13 @@
 #include "Chunk.h"
 #include <vector>
 
+#include "../Utils/ChunkPosition.h"
+
 #define CHUNK_COUNT 4
+
+namespace Minecraft {
+    class Player;
+}
 
 namespace Minecraft {
 
@@ -22,15 +28,19 @@ namespace Minecraft {
 
         void generateWorld();
 
+        void initChunks();
+
         void renderWorld();
 
-        void generateNewChunks();
-
     private:
+        Player* m_player;
         Shader m_blockShader = Shader(R"(G:\Programming\Projects\C\MinecraftClone\Core\Shaders\Block_Vertex.vs)",
                                     R"(G:\Programming\Projects\C\MinecraftClone\Core\Shaders\Block_Fragment.fs)");
 
-        std::vector<Chunk> m_chunks;
+        // The chunks that are in the world
+        std::unordered_map<std::pair<int, int>, std::shared_ptr<Chunk>, ChunkPositionHash> m_chunks;
+        void generateAndRenderChunk();
+        int m_renderDistance = 1; // In chunks
     };
 } // Minecraft
 #endif //MINECRAFTCLONE_WORLD_H

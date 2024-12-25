@@ -23,6 +23,9 @@ namespace Minecraft {
 
         void processInput(GLFWwindow *window);
 
+        glm::vec3 getPosition();
+        glm::vec3 getChunkPosition();
+
     private:
         static Player* m_instance;
     };

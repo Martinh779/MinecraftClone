@@ -17,13 +17,11 @@ namespace Minecraft {
     /**
      * Default constructor
      */
-    Chunk::Chunk(glm::vec3 position) {
+    Chunk::Chunk(std::pair<int, int> position) {
         m_position = position;
+        std::cout << "Creating chunk at position: " << m_position.first << ", " << m_position.second << std::endl;
         fillChunk();
-        //generateChunk();
         generateChunkPerlinNoise();
-
-        CHECK_VECTOR("Created Chunk at position", m_position);
     }
 
 
@@ -31,12 +29,9 @@ namespace Minecraft {
      * Destructor
      */
     Chunk::~Chunk() {
-
         glDeleteVertexArrays(1, &m_VAO);
         glDeleteBuffers(1, &m_VBO);
         glDeleteBuffers(1, &m_EBO);
-
-        CHECK_VECTOR("Deleted Chunk at position", m_position);
     }
 
 
@@ -128,7 +123,7 @@ namespace Minecraft {
         for (int x = 0; x < m_blocks.getX(); x++) {
             for (int z = 0; z < m_blocks.getZ(); z++) {  // z-axis corresponds to height
                 // Calculate the height of the terrain at this point
-                int height = perlinNoise->calculatePerlin(m_position.x + x, m_position.z + z);
+                int height = perlinNoise->calculatePerlin(m_position.first + x, m_position.second + z);
 
                 // Iterate through the height of the terrain
                 for (int y = m_blocks.getY() - 1; y >= 0; y--) {
@@ -157,6 +152,7 @@ namespace Minecraft {
 
         // Bind the VAO
         glBindVertexArray(m_VAO);
+        CHECK_IF_GL_ERROR("Error in binding VAO");
 
         // VBO: Store the vertices
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
@@ -192,7 +188,8 @@ namespace Minecraft {
         // Translate the block
         auto model = glm::mat4(1.0f);
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::translate(model, m_position);
+        glm::vec3 chunkPosition = glm::vec3(m_position.first, 0, m_position.second);
+        model = glm::translate(model, chunkPosition);
 
         // Get the camera position
         glm::vec3 cameraPos = camera->getPosition();
@@ -211,12 +208,12 @@ namespace Minecraft {
         GLuint textureArrayId = Resources::TextureLoader::getInstance()->getTextureArrayId();
         glBindTexture(GL_TEXTURE_2D_ARRAY, textureArrayId);
         blockShader->setInt("ourTextureArray", 0);
+        CHECK_IF_GL_ERROR("Error in binding texture array");
 
         // render the chunk
         glBindVertexArray(m_VAO);
+        CHECK_IF_GL_ERROR("Error in binding VAO");
         glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
-
-        CHECK_IF_GL_ERROR("Error in rendering chunk");
     }
 } // Minecraft

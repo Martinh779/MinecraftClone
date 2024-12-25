@@ -14,9 +14,11 @@ namespace Minecraft {
 
     class Chunk {
     public:
-        Chunk(glm::vec3 position);
+        Chunk(std::pair<int, int> position);
 
         ~Chunk();
+
+        void setPosition(std::pair<int, int> position) { m_position = position; }
 
         void generateChunk();
 
@@ -24,7 +26,9 @@ namespace Minecraft {
 
         void render(Shader* blockShader);
 
-        constexpr const static int chunkSize[3] = {16, 256, 16};
+        constexpr static int chunkSize[3] = {16, 256, 16};
+
+        [[nodiscard]] std::pair<int, int> getPosition() const { return m_position; }
 
     private:
         //constexpr const static int chunkSize[3] = {8, 8, 256};
@@ -37,7 +41,7 @@ namespace Minecraft {
 
         void fillChunk();
 
-        glm::vec3 m_position{};
+        std::pair<int, int> m_position{};
         unsigned int m_indexCount{};
     };
 

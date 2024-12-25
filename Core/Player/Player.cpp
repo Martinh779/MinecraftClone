@@ -30,6 +30,20 @@ namespace Minecraft {
     }
 
 
+    glm::vec3 Player::getPosition() {
+        return getCamera()->getPosition();
+    }
+
+
+    glm::vec3 Player::getChunkPosition() {
+        glm::vec3 pos = getPosition();
+        // TODO: use variable
+        pos.x = std::floor(pos.x / 16) * 16;
+        pos.z = std::floor(pos.z / 16) * 16;
+        return pos;
+    }
+
+
     void Player::update(GLFWwindow *window) {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 

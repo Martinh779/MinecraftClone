@@ -70,7 +70,7 @@ namespace Math {
      * @return
      */
     double PerlinNoise::grad(int ix, int iy, double x, double y) {
-        int hash = permutation[(permutation[ix % 256] + iy) % 256] % 8;
+        int hash = permutation[(permutation[wrapIndex(ix, 256)] + wrapIndex(iy, 256)) % 256] % 8;
         double gradients[8][2] = {
                 {1, 1}, {-1, 1}, {1, -1}, {-1, -1},
                 {1, 0}, {-1, 0}, {0, 1}, {0, -1}
@@ -116,6 +116,11 @@ namespace Math {
         noise = std::clamp(clamped, minRange, maxRange);
 
         return noise;
-
     }
+
+
+    int PerlinNoise::wrapIndex(int value, int max) {
+        return (value % max + max) % max;
+    }
+
 } // Minecraft

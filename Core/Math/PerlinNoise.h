@@ -32,6 +32,8 @@ namespace Math {
         double lerp(double t, double a, double b);
 
         double grad(int ix, int iy, double x, double y);
+
+        int wrapIndex(int value, int max);
     };
 
 } // Minecraft
