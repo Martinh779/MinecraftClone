@@ -12,8 +12,8 @@
 namespace Minecraft {
     Game::Game() {
         Utils::ConfigLoader* configLoader = Utils::ConfigLoader::getInstance();
-        screenWidth = configLoader->getScreenWidth();
-        screenHeight = configLoader->getScreenHeight();
+        m_screenWidth = configLoader->getScreenWidth();
+        m_screenHeight = configLoader->getScreenHeight();
         LOG(LOG_INFO, "Game created");
     }
 
@@ -25,7 +25,7 @@ namespace Minecraft {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         // Create a GLFW window
-        GLFWwindow *window = glfwCreateWindow(1280, 720, "Minecraft", nullptr, nullptr);
+        GLFWwindow *window = glfwCreateWindow(m_screenWidth, m_screenHeight, "Minecraft", nullptr, nullptr);
         if (window == nullptr) {
             LOG(LOG_ERROR, "Failed to create GLFW window");
             glfwTerminate();

@@ -120,10 +120,14 @@ namespace Math {
 
         // Interpolate between the two points
         double noise = lerp(fade(y - y0), ix0, ix1);
-        int clamped = static_cast<int>(std::round((noise * (m_maxRange - m_minRange)) + m_minRange));
-        noise = std::clamp(clamped, m_minRange, m_maxRange);
 
-        return noise;
+        // Normalize the noise value
+        noise = (noise + 1.0) / 2.0;
+
+        // Scale the noise value to the desired range
+        noise = noise * (m_maxRange - m_minRange) + m_minRange;
+
+        return static_cast<int>(std::round(noise));
     }
 
 

@@ -20,9 +20,9 @@ namespace Math {
         int calculatePerlin(double x, double y);
 
     protected:
-        double m_frequency = 0.003;
-        int m_minRange = 50;
-        int m_maxRange = 200;
+        double m_frequency = 0.01;
+        int m_minRange = 0;
+        int m_maxRange = 250;
 
     private:
         static PerlinNoise* instance;

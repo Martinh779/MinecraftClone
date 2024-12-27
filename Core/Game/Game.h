@@ -21,8 +21,8 @@ namespace Minecraft {
         static void processInput(GLFWwindow *window);
 
         // General
-        int screenWidth = 1280;
-        int screenHeight = 720;
+        int m_screenWidth = 1280;
+        int m_screenHeight = 720;
 
         // FPS
         float deltaTime = 0.0f;

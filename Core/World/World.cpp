@@ -8,6 +8,7 @@
 
 #include "../Player/Player.h"
 #include "../Utils/ConfigLoader.h"
+#include "../Utils/Logger.h"
 
 namespace Minecraft {
     World::World() {
@@ -63,7 +64,7 @@ namespace Minecraft {
                 if (chunk != nullptr) {
                     chunk->render(&m_blockShader);
                 } else {
-                    std::cerr << "Chunk is nullptr" << std::endl;
+                    LOG(LOG_ERROR, "Chunk at position: {}, {} is nullptr", pos.first, pos.second);
                 }
             }
         }

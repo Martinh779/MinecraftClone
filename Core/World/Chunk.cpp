@@ -21,7 +21,7 @@ namespace Minecraft {
         m_position = position;
         fillChunk();
         generateChunkPerlinNoise();
-        LOG(LOG_INFO, "Chunk generated at position: ", m_position.first, ", ", m_position.second);
+        LOG(LOG_INFO, "Chunk generated at position: {}, {}", m_position.first, m_position.second);
     }
 
 
@@ -48,62 +48,6 @@ namespace Minecraft {
                 }
             }
         }
-    }
-
-
-    /**
-     * Generate the chunk
-     * @param position of the chunk in world space
-     */
-    void Chunk::generateChunk() {
-        // Data storage of vertices and indices
-        std::vector<GLfloat> vertices;
-        std::vector<GLuint> indices;
-
-        GLuint indexOffset = 0;
-        for (int x = 0; x < m_blocks.getX(); x++) {
-            for (int z = 0; z < m_blocks.getZ(); z++) {  // z-axis corresponds to height
-                for (int y = 0; y < m_blocks.getY(); y++) {
-                    BlockModel& block = m_blocks(x, y, z);
-
-                    if (y < m_blocks.getY() - 1) {
-                        // Set the blocks below the top to dirt
-                        block.setBlockType(Resources::BlockType::Dirt);
-                    } else {
-                        // Set the last row to grass
-                        block.setBlockType(Resources::BlockType::Grass);
-                    }
-                    block.addToMesh(vertices, indices, indexOffset);
-                }
-            }
-        }
-
-        // Generate the VAO, VBO and EBO
-        glGenVertexArrays(1, &m_VAO);
-        glGenBuffers(1, &m_VBO);
-        glGenBuffers(1, &m_EBO);
-
-        // Bind the VAO
-        glBindVertexArray(m_VAO);
-
-        // VBO: Store the vertices
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
-
-        // EBO: Store the indices
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-
-        // Set up the vertex attributes
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)nullptr); // Position
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat))); // Texture Coords
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat))); // Texture Array Index
-        glEnableVertexAttribArray(2);
-
-        m_indexCount = indices.size();
-        glBindVertexArray(0);
     }
 
 
@@ -187,16 +131,16 @@ namespace Minecraft {
 
         // Translate the block
         auto model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         glm::vec3 chunkPosition = glm::vec3(m_position.first, 0, m_position.second);
-        model = glm::translate(model, chunkPosition);
+        model = translate(model, chunkPosition);
 
         // Get the camera position
         glm::vec3 cameraPos = camera->getPosition();
         glm::vec3 cameraFront = camera->getFront();
         glm::vec3 cameraUp = camera->getUp();
 
-        auto view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        auto view = lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         auto projection = glm::perspective(glm::radians(45.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 
         blockShader->setMat4("model", model);

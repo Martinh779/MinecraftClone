@@ -20,8 +20,6 @@ namespace Minecraft {
 
         void setPosition(std::pair<int, int> position) { m_position = position; }
 
-        void generateChunk();
-
         void generateChunkPerlinNoise();
 
         void render(Shader* blockShader);
@@ -30,9 +28,9 @@ namespace Minecraft {
 
         [[nodiscard]] std::pair<int, int> getPosition() const { return m_position; }
 
+        // TODO: Add a method to recalculate the chunk, in case something changed
+
     private:
-        //constexpr const static int chunkSize[3] = {8, 8, 256};
-        //constexpr const static int chunkSize[3] = {1, 1, 1};
         Utils::BlockArray3D m_blocks = Utils::BlockArray3D(chunkSize[0], chunkSize[1], chunkSize[2]);
 
         GLuint m_VAO{};
