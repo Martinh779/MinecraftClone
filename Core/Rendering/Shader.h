@@ -31,17 +31,20 @@ public:
     void setFloat(const std::string &name, float value) const;
 
     void setVector3f(const std::string &name,
-                     const float value1,
-                     const float value2,
-                     const float value3) const;
+                     float value1,
+                     float value2,
+                     float value3) const;
 
     void setVector4f(const std::string &name,
-                     const float value1,
-                     const float value2,
-                     const float value3,
-                     const float value4) const;
+                     float value1,
+                     float value2,
+                     float value3,
+                     float value4) const;
 
     void setMat4(const std::string &name, const glm::mat4 &mat) const;
+
+private:
+    static Shader* shader;
 };
 
 

@@ -8,6 +8,8 @@
 
 #include <algorithm>
 
+#include "../Utils/ConfigLoader.h"
+
 namespace Math {
 
     PerlinNoise* PerlinNoise::instance = nullptr;
@@ -29,11 +31,17 @@ namespace Math {
      * @param seed
      */
     PerlinNoise::PerlinNoise(unsigned int seed) {
-        int indx = 0;
-        permutation.resize(256);
+        // Load the configuration
+        Utils::ConfigLoader* config = Utils::ConfigLoader::getInstance();
+
+        m_frequency = config->getPerlinNoiseFrequency();
+        m_minRange = config->getPerlinNoiseMin();
+        m_maxRange = config->getPerlinNoiseMax();
 
         // Fill permutation vector with values from 0 to 255
-        std::ranges::generate(permutation, [&indx]() { return indx++; });
+        permutation.resize(256);
+        int ind = 0;
+        std::ranges::generate(permutation, [&ind]() { return ind++; });
     }
 
 
@@ -91,8 +99,8 @@ namespace Math {
      * @return
      */
     int PerlinNoise::calculatePerlin(double x, double y) {
-        x *= frequency;
-        y *= frequency;
+        x *= m_frequency;
+        y *= m_frequency;
 
         int x0 = (int)floor(x);
         int x1 = x0 + 1;
@@ -112,8 +120,8 @@ namespace Math {
 
         // Interpolate between the two points
         double noise = lerp(fade(y - y0), ix0, ix1);
-        int clamped = static_cast<int>(std::round((noise * (maxRange - minRange)) + minRange));
-        noise = std::clamp(clamped, minRange, maxRange);
+        int clamped = static_cast<int>(std::round((noise * (m_maxRange - m_minRange)) + m_minRange));
+        noise = std::clamp(clamped, m_minRange, m_maxRange);
 
         return noise;
     }

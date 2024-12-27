@@ -19,9 +19,9 @@ namespace Minecraft {
      */
     Chunk::Chunk(std::pair<int, int> position) {
         m_position = position;
-        std::cout << "Creating chunk at position: " << m_position.first << ", " << m_position.second << std::endl;
         fillChunk();
         generateChunkPerlinNoise();
+        LOG(LOG_INFO, "Chunk generated at position: ", m_position.first, ", ", m_position.second);
     }
 
 

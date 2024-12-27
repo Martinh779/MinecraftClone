@@ -23,24 +23,4 @@ namespace Utils {
         std::cout << message << ": " << vector.x << ", " << vector.y << ", " << vector.z << std::endl;
     }
 
-
-    template<typename... Args>
-    void Logger::log(const char* message, LogType type, Args... args) {
-        va_list argsList;
-        va_start(argsList, type);
-
-        switch (type) {
-            case LogType::INFO:
-                vprintf(message, argsList);
-            break;
-            case LogType::WARNING:
-                vprintf(message, argsList);
-            break;
-            case LogType::ERROR:
-                vfprintf(stderr, message, argsList);
-            break;
-        }
-        va_end(argsList);
-    }
-
 } // Utils

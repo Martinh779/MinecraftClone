@@ -40,7 +40,7 @@ namespace Minecraft {
         // The chunks that are in the world
         std::unordered_map<std::pair<int, int>, std::shared_ptr<Chunk>, ChunkPositionHash> m_chunks;
         void generateAndRenderChunk();
-        int m_renderDistance = 1; // In chunks
+        int m_renderDistance = 3; // In chunks
     };
 } // Minecraft
 #endif //MINECRAFTCLONE_WORLD_H

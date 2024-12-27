@@ -29,7 +29,7 @@ namespace Minecraft {
         Camera(const Camera&) = delete;
         Camera& operator=(const Camera&) = delete;
 
-        Camera() = default;
+        Camera();
         ~Camera();
 
     private:
@@ -51,6 +51,13 @@ namespace Minecraft {
 
         double lastX = 0.0;
         double lastY = 0.0;
+
+        GLuint m_moveForwardKey = GLFW_KEY_W;
+        GLuint m_moveBackwardKey = GLFW_KEY_S;
+        GLuint m_moveLeftKey = GLFW_KEY_A;
+        GLuint m_moveRightKey = GLFW_KEY_D;
+        GLuint m_jumpKey = GLFW_KEY_SPACE;
+        GLuint m_crouchKey = GLFW_KEY_LEFT_CONTROL;
     };
 
 } // Minecraft

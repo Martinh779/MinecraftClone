@@ -7,9 +7,13 @@
 #include <glm/detail/func_geometric.inl>
 
 #include "../Player/Player.h"
+#include "../Utils/ConfigLoader.h"
 
 namespace Minecraft {
     World::World() {
+        Utils::ConfigLoader* configLoader = Utils::ConfigLoader::getInstance();
+        m_renderDistance = configLoader->getChunkRenderDistance();
+
         m_renderDistance = m_renderDistance * Chunk::chunkSize[0];
         m_player = Player::getInstance();
         generateWorld();
@@ -35,7 +39,6 @@ namespace Minecraft {
     }
 
 
-
     void World::renderWorld() {
         generateAndRenderChunk();
     }
@@ -47,7 +50,8 @@ namespace Minecraft {
         // rest of the positions in the vector would be generated
         glm::vec3 playerPos = m_player->getChunkPosition();
         for (int x = playerPos.x - m_renderDistance; x <= playerPos.x + m_renderDistance; x += Chunk::chunkSize[0]) {
-            for (int z = playerPos.z - m_renderDistance; z <= playerPos.z + m_renderDistance; z += Chunk::chunkSize[2]) {
+            for (int z = playerPos.z - m_renderDistance; z <= playerPos.z + m_renderDistance;
+                 z += Chunk::chunkSize[2]) {
                 std::pair<int, int> pos = std::make_pair(x, z);
                 // Create the chunk if it does not exist
                 if (m_chunks.contains(pos) == false) {
@@ -64,6 +68,4 @@ namespace Minecraft {
             }
         }
     }
-
-
 }

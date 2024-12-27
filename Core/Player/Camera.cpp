@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include "Camera.h"
+
+#include "../Utils/ConfigLoader.h"
 #include "glm/trigonometric.hpp"
 #include "glm/geometric.hpp"
 
@@ -22,6 +24,21 @@ namespace Minecraft {
     }
 
 
+    Camera::Camera() {
+        Utils::ConfigLoader* configLoader = Utils::ConfigLoader::getInstance();
+        speed = configLoader->getCameraSpeed();
+        sensitivity = configLoader->getCameraSensitivity();
+
+        m_moveForwardKey = configLoader->getForwardKey();
+        m_moveBackwardKey = configLoader->getBackwardKey();
+        m_moveLeftKey = configLoader->getLeftKey();
+        m_moveRightKey = configLoader->getRightKey();
+        m_jumpKey = configLoader->getJumpKey();
+        m_crouchKey = configLoader->getCrouchKey();
+    }
+
+
+
     /**
      * Updates the camera position and orientation
      * @param window The GLFW window
@@ -37,22 +54,22 @@ namespace Minecraft {
      */
     void Camera::processInput(GLFWwindow *window) {
         // Walking
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_moveForwardKey) == GLFW_PRESS) {
             position += front * speed;
         }
-        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_moveBackwardKey) == GLFW_PRESS) {
             position -= front * speed;
         }
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_moveLeftKey) == GLFW_PRESS) {
             position -= glm::normalize(glm::cross(front, up)) * speed;
         }
-        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_moveRightKey) == GLFW_PRESS) {
             position += glm::normalize(glm::cross(front, up)) * speed;
         }
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_jumpKey) == GLFW_PRESS) {
             position += up * speed;
         }
-        if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        if (glfwGetKey(window, m_crouchKey) == GLFW_PRESS) {
             position -= up * speed;
         }
 

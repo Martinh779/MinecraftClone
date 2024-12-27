@@ -7,7 +7,16 @@
 #include "../Player/Player.h"
 #include <iostream>
 
+#include "../Utils/ConfigLoader.h"
+
 namespace Minecraft {
+    Game::Game() {
+        Utils::ConfigLoader* configLoader = Utils::ConfigLoader::getInstance();
+        screenWidth = configLoader->getScreenWidth();
+        screenHeight = configLoader->getScreenHeight();
+        LOG(LOG_INFO, "Game created");
+    }
+
     int Game::handleWindow() {
         // Initialize GLFW
         glfwInit();
@@ -18,7 +27,7 @@ namespace Minecraft {
         // Create a GLFW window
         GLFWwindow *window = glfwCreateWindow(1280, 720, "Minecraft", nullptr, nullptr);
         if (window == nullptr) {
-            std::cout << "Failed to create GLFW window" << std::endl;
+            LOG(LOG_ERROR, "Failed to create GLFW window");
             glfwTerminate();
             return -1;
         }
@@ -26,7 +35,7 @@ namespace Minecraft {
 
         // Load all OpenGL function pointers using GLAD
         if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-            std::cout << "Failed to initialize GLAD" << std::endl;
+            LOG(LOG_ERROR, "Failed to initialize GLAD");
             return -1;
         }
 
@@ -81,7 +90,7 @@ namespace Minecraft {
         float currentTime = glfwGetTime();
         float deltaTime = currentTime - lastFrame;
         lastFrame = currentTime;
-        std::cout << "FPS: " << (1 / deltaTime) << "/" << deltaTime << std::endl;
+        LOG(LOG_INFO, ("FPS: " + std::to_string(1.0f / deltaTime)).c_str());
     }
 
 }

@@ -6,6 +6,8 @@
 #define MINECRAFTCLONE_LOGGER_H
 
 #include <cstdarg>
+#include <format>
+#include <iostream>
 #include <map>
 #include <string>
 #include "glad/glad.h"
@@ -13,7 +15,7 @@
 
 #define CHECK_IF_GL_ERROR(message) Utils::Logger::glErrorCheck(__FILE__, __LINE__, message)
 #define CHECK_VECTOR(message, vector) Utils::Logger::vectorCheck(message, vector)
-#define LOG(message, type, arg) Utils::Logger::log(message, type, (arg))
+#define LOG(type, message, ...) Utils::Logger::log(type, message, ##__VA_ARGS__)
 
 #define LOG_INFO Utils::LogType::INFO
 #define LOG_WARNING Utils::LogType::WARNING
@@ -34,7 +36,21 @@ namespace Utils {
         static void vectorCheck(const char* message, const glm::vec3 &vector);
 
         template<typename... Args>
-        static void log(const char* message, LogType type, Args... args);
+        static void log(LogType type, const char* message, Args... args) {
+            std::string formattedMessage = std::vformat(message, std::make_format_args(args...));
+
+            switch (type) {
+                case LogType::INFO:
+                    std::cout << "[INFO] " << formattedMessage << std::endl;
+                    break;
+                case LogType::WARNING:
+                    std::cout << "[WARNING] " << formattedMessage << std::endl;
+                    break;
+                case LogType::ERROR:
+                    std::cerr << "[ERROR] " << formattedMessage << std::endl;
+                    break;
+            }
+        }
 
     private:
         inline static std::map<GLenum, std::string> errorMap = {

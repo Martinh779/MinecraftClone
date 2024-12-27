@@ -6,7 +6,8 @@
 #include "TextureLoader.h"
 
 #include "TexturePaths.h"
-#include "../stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "../Libraries/stb_image/stb_image.h"
 #include "../Utils/Logger.h"
 
 namespace Resources {
@@ -99,7 +100,5 @@ namespace Resources {
                 data[index + 2] = (data[index + 2] * grassColor[2]) / 255;
             }
         }
-
-        std::cout << "Colored grass block texture" << std::endl;
     }
 } // Resources
