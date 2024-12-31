@@ -1,45 +1,45 @@
-//
-// Created by Martin Hertel on 10.02.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
-#include <iostream>
 #include "BlockModel.h"
 #include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "../Utils/Logger.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "../Utils/Logger.h"
-
 
 namespace Minecraft {
-    BlockModel::BlockModel() : m_blockType(Resources::BlockType::Air), m_position(0, 0, 0) {
-        //
-    }
-
-    BlockModel::~BlockModel() = default;
-
-
+    /**
+     * Set the block type
+     * @param blockType The block type
+     */
     void BlockModel::setBlockType(Resources::BlockType blockType) {
         m_blockType = blockType;
     }
 
 
-    void BlockModel::setPosition(glm::vec3 position) {
-        m_position = position;
-    }
-
-
-    void BlockModel::addToMesh(std::vector<float> &vertices, std::vector<unsigned int> &indices, GLuint &indexOffset) {
+    /**
+     * Add the block to the mesh
+     * @param position The position of the block
+     * @param neighbors The neighbors of the block
+     * @param vertices The vertices of the block
+     * @param indices The indices of the block
+     * @param indexOffset The index offset
+     */
+    void BlockModel::addToMesh(glm::vec3 position, std::array<bool, 6> neighbors, std::vector<float> &vertices,
+                               std::vector<unsigned int> &indices, GLuint &indexOffset) {
         auto blockTextureLayer = Resources::TextureLoader::getInstance()->getTextureForBlock(m_blockType);
 
-        float x = m_position.x;
-        float y = m_position.y;
-        float z = m_position.z;
+        float x = position.x;
+        float y = position.y;
+        float z = position.z;
 
         // --- Bottom Face ---
-        {
+        if (!neighbors[0]) {
             // --- Bottom Face ---
             std::vector<GLfloat> bottomFace = {
                 x, y, z, 0.0f, 1.0f, blockTextureLayer.bottom, // Bottom-left
@@ -54,7 +54,8 @@ namespace Minecraft {
                                indexOffset + 1, indexOffset + 3, indexOffset + 2
                            });
             indexOffset += 4;
-        } {
+        }
+        if (!neighbors[1]) {
             // --- Top Face ---
             std::vector<GLfloat> topFace = {
                 x, y + 1, z, 0.0f, 0.0f, blockTextureLayer.top, // Bottom-left
@@ -69,7 +70,8 @@ namespace Minecraft {
                                indexOffset + 1, indexOffset + 2, indexOffset + 3
                            });
             indexOffset += 4;
-        } {
+        }
+        if (!neighbors[2]) {
             // --- Left Face ---
             std::vector<GLfloat> leftFace = {
                 x, y, z, 0.0f, 1.0f, blockTextureLayer.side, // Bottom-left
@@ -84,7 +86,8 @@ namespace Minecraft {
                                indexOffset + 1, indexOffset + 3, indexOffset + 2
                            });
             indexOffset += 4;
-        } {
+        }
+        if (!neighbors[3]) {
             // --- Right Face ---
             std::vector<GLfloat> rightFace = {
                 x + 1, y, z, 1.0f, 1.0f, blockTextureLayer.side, // Bottom-left
@@ -99,7 +102,8 @@ namespace Minecraft {
                                indexOffset + 1, indexOffset + 2, indexOffset + 3
                            });
             indexOffset += 4;
-        } {
+        }
+        if (!neighbors[4]) {
             // --- Back Face ---
             std::vector<GLfloat> backFace = {
                 x, y, z, 1.0f, 1.0f, blockTextureLayer.side, // Bottom-left
@@ -114,7 +118,8 @@ namespace Minecraft {
                                indexOffset + 1, indexOffset + 2, indexOffset + 3
                            });
             indexOffset += 4;
-        } {
+        }
+        if (!neighbors[5]) {
             // --- Front Face ---
             std::vector<GLfloat> frontFace = {
                 x, y, z + 1, 0.0f, 1.0f, blockTextureLayer.side, // Bottom-left
@@ -131,4 +136,5 @@ namespace Minecraft {
             indexOffset += 4;
         }
     }
+
 } // Minecraft

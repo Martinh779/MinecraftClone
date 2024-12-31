@@ -1,6 +1,9 @@
-//
-// Created by herte on 27.12.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef PATHUTILS_H
 #define PATHUTILS_H

@@ -1,13 +1,15 @@
-//
-// Created by Martin Hertel on 09.02.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_GAME_H
 #define MINECRAFTCLONE_GAME_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "../World/World.h"
 
 namespace Minecraft {
     class Game {

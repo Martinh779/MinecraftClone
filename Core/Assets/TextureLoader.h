@@ -1,11 +1,15 @@
-//
-// Created by Martin Hertel on 14.11.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_TEXTURELOADER_H
 #define MINECRAFTCLONE_TEXTURELOADER_H
 
 #include <unordered_map>
+#include <string>
 #include "glad/glad.h"
 #include "glm/vec2.hpp"
 

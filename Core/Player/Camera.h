@@ -1,9 +1,14 @@
-//
-// Created by Martin Hertel on 03.08.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_CAMERA_H
 #define MINECRAFTCLONE_CAMERA_H
+
+#include <glm/ext/quaternion_geometric.hpp>
 
 #include "glm/vec3.hpp"
 #include "GLFW/glfw3.h"
@@ -11,53 +16,30 @@
 namespace Minecraft {
 
     class Camera {
-    private:
-        // Singleton m_instance
-        static Camera* m_instance;
-
     public:
-        static Camera* getInstance();
+        Camera(float sensitivity = 0.1f);
 
-        void update(GLFWwindow *window);
-        void processInput(GLFWwindow *window);
+        void updateCameraVectors(glm::vec3 position);
 
-        glm::vec3 getPosition();
-        glm::vec3 getFront();
-        glm::vec3 getRight();
-        glm::vec3 getUp();
+        void processMouseMovement(float xOffset, float yOffset);
 
-        Camera(const Camera&) = delete;
-        Camera& operator=(const Camera&) = delete;
+        glm::vec3 getPosition() { return m_position; }
 
-        Camera();
-        ~Camera();
+        glm::vec3 getFront() { return m_front; }
+        glm::vec3 getRight() { return glm::normalize(glm::cross(m_front, m_up)); }
+        glm::vec3 getUp() { return m_up; }
+
 
     private:
-        void mouseCallback(GLFWwindow *window);
+        glm::vec3 m_position;
+        glm::vec3 m_front = glm::vec3(0.0f, 0.0f, -1.0f);
+        glm::vec3 m_up = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-        // Camera attributes
-        glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
-        glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
-        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-        glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
+        float m_yaw = -90.0f;
+        float m_pitch = 0.0f;
 
-        float yaw = -90.0f;
-        float pitch = 0.0f;
-        float speed = 0.5f;
-        float sensitivity = 0.1f;
-
-        // Mouse input
-        bool firstMouse = true;
-
-        double lastX = 0.0;
-        double lastY = 0.0;
-
-        GLuint m_moveForwardKey = GLFW_KEY_W;
-        GLuint m_moveBackwardKey = GLFW_KEY_S;
-        GLuint m_moveLeftKey = GLFW_KEY_A;
-        GLuint m_moveRightKey = GLFW_KEY_D;
-        GLuint m_jumpKey = GLFW_KEY_SPACE;
-        GLuint m_crouchKey = GLFW_KEY_LEFT_CONTROL;
+        float m_sensitivity = 0.1f;
     };
 
 } // Minecraft

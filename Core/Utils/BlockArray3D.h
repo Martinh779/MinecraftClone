@@ -1,12 +1,19 @@
-//
-// Created by Martin Hertel on 21.11.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_BLOCKARRAY3D_H
 #define MINECRAFTCLONE_BLOCKARRAY3D_H
 
 #include <vector>
 #include "../World/BlockModel.h"
+
+namespace Minecraft {
+    class BlockModel;
+}
 
 namespace Utils {
 

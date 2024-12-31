@@ -1,12 +1,16 @@
-//
-// Created by Martin Hertel on 29.07.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_LOGGER_H
 #define MINECRAFTCLONE_LOGGER_H
 
 #include <cstdarg>
 #include <format>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
@@ -31,6 +35,10 @@ namespace Utils {
 
     class Logger {
     public:
+        static void initialize(const std::string& logFileBaseName);
+
+        static void cleanup();
+
         static void glErrorCheck(const char* file, int line, const char* message);
 
         static void vectorCheck(const char* message, const glm::vec3 &vector);
@@ -38,17 +46,29 @@ namespace Utils {
         template<typename... Args>
         static void log(LogType type, const char* message, Args... args) {
             std::string formattedMessage = std::vformat(message, std::make_format_args(args...));
+            std::string logPrefix;
 
             switch (type) {
                 case LogType::INFO:
-                    std::cout << "[INFO] " << formattedMessage << std::endl;
-                    break;
+                    logPrefix = "[INFO] ";
+                break;
                 case LogType::WARNING:
-                    std::cout << "[WARNING] " << formattedMessage << std::endl;
-                    break;
+                    logPrefix = "[WARNING] ";
+                break;
                 case LogType::ERROR:
-                    std::cerr << "[ERROR] " << formattedMessage << std::endl;
-                    break;
+                    logPrefix = "[ERROR] ";
+                break;
+            }
+            std::string fullMessage = logPrefix + formattedMessage;
+
+            if (type == LogType::ERROR) {
+                std::cerr << fullMessage << std::endl;
+            } else {
+                std::cout << fullMessage << std::endl;
+            }
+
+            if (logFileStream.is_open()) {
+                logFileStream << fullMessage << std::endl;
             }
         }
 
@@ -63,6 +83,8 @@ namespace Utils {
                 {GL_INVALID_FRAMEBUFFER_OPERATION, "GL_INVALID_FRAMEBUFFER_OPERATION"},
                 {GL_CONTEXT_LOST, "GL_CONTEXT_LOST"},
         };
+
+        inline static std::ofstream logFileStream;
     };
 
 } // Utils

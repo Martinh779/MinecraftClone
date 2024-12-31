@@ -10,10 +10,10 @@ This is a personal project where I'm building a low-level Minecraft clone from s
 - **Chunk System**: Blocks are managed and rendered in chunks for efficient performance.
 
 ## Next Steps (To-Do)
-- **Procedural World Generation**: Implementing world generation, likely using Perlin noise for terrain shaping.
-- **Collision Detection**: Adding collision logic so the camera interacts with the world realistically.
-- **Basic Physics**: Introducing simple physics for more natural movement and interactions.
 - **Optimized Rendering**: Ensuring only visible blocks are rendered to improve performance.
+- **Chunk loading**: save chunks to a file and load them when needed. This will allow for infinite world generation.
+- **Block Interaction**: Implement block breaking and placing mechanics.
+- **Merge chunks**: Merge adjacent chunks to reduce the number of draw calls.
 
 ## Why This Project?
 I've always been intrigued by how complex graphics and simulation work behind the scenes in games. Taking on a project like this pushes me to understand computer graphics on a deeper level and challenges me to solve problems that many take for granted in game development.

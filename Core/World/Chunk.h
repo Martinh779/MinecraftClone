@@ -1,6 +1,9 @@
-//
-// Created by Martin Hertel on 29.07.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_CHUNK_H
 #define MINECRAFTCLONE_CHUNK_H
@@ -18,15 +21,20 @@ namespace Minecraft {
 
         ~Chunk();
 
+        // Get the block at the specified position in local coordinates
+        [[nodiscard]] BlockModel* getBlockAt(int x, int y, int z) { return &m_blocks(x, y, z); }
+
         void setPosition(std::pair<int, int> position) { m_position = position; }
 
-        void generateChunkPerlinNoise();
+        void addBlocksToChunkMesh();
 
         void render(Shader* blockShader);
 
         constexpr static int chunkSize[3] = {16, 256, 16};
 
         [[nodiscard]] std::pair<int, int> getPosition() const { return m_position; }
+
+        std::array<bool, 6> getBlockNeighbours(glm::vec3 blockPosition);
 
         // TODO: Add a method to recalculate the chunk, in case something changed
 

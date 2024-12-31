@@ -1,6 +1,9 @@
-//
-// Created by Martin Hertel on 15.11.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #include "Plane.h"
 #include "glm/geometric.hpp"

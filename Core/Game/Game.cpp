@@ -1,10 +1,14 @@
-//
-// Created by Martin Hertel on 09.02.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #include "Game.h"
 #include "../Utils/Logger.h"
 #include "../Player/Player.h"
+#include "../World/World.h"
 #include <iostream>
 
 #include "../Utils/ConfigLoader.h"
@@ -40,7 +44,7 @@ namespace Minecraft {
         }
 
         Player* player = Player::getInstance();
-        World world = World();
+        World* world = World::getInstance();
 
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -63,7 +67,7 @@ namespace Minecraft {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Render the world
-            world.renderWorld();
+            world->update();
 
             //updateFPS();
 

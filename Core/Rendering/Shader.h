@@ -1,15 +1,15 @@
-//
-// Created by Martin Hertel on 10.02.2024.
-//
+/*
+ * Copyright (c) 2024 Martin Hertel.
+ *
+ * This software is released under the MIT License.
+ * See the LICENSE file for more details.
+ */
 
 #ifndef MINECRAFTCLONE_SHADER_H
 #define MINECRAFTCLONE_SHADER_H
 
 #include <string>
-#include <fstream>
 #include <sstream>
-#include <iostream>
-#include <vector>
 #include <glm/fwd.hpp>
 
 
