@@ -8,7 +8,7 @@
 #ifndef MINECRAFTCLONE_PLAYER_H
 #define MINECRAFTCLONE_PLAYER_H
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Camera.h"
 #include "../Physics/BoundingBox.h"

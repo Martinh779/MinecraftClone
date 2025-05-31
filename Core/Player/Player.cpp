@@ -100,7 +100,7 @@ namespace Minecraft {
 
         //addGravity();
 
-        Physics::Collision::checkPlayerCollision(*this);
+        //Physics::Collision::checkPlayerCollision(*this);
 
         updateCameraVectors();
     }
@@ -139,8 +139,6 @@ namespace Minecraft {
         }
 
         setPosition(newPos);
-
-        Physics::Collision::checkPlayerCollision(*this);
 
         // Mouse movement
         mouseCallback(window);

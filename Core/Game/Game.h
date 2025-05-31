@@ -8,7 +8,7 @@
 #ifndef MINECRAFTCLONE_GAME_H
 #define MINECRAFTCLONE_GAME_H
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
 namespace Minecraft {

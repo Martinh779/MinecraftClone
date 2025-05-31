@@ -8,6 +8,7 @@
 #ifndef MINECRAFTCLONE_WORLD_H
 #define MINECRAFTCLONE_WORLD_H
 
+#include <memory>
 #include "BlockModel.h"
 #include "../Rendering/Shader.h"
 #include "Chunk.h"

@@ -32,8 +32,8 @@ namespace Physics {
                 }
             }
         }
-        if (collidingBoxes.size() > 0) {
-            LOG_INFO("Colliding with " + std::to_string(collidingBoxes.size()) + " blocks");
+        if (!collidingBoxes.empty()) {
+            LOG(LOG_INFO, "Colliding with %s blocks", std::to_string(collidingBoxes.size()));
             bool colliding = false;
         }
 
@@ -91,7 +91,8 @@ namespace Physics {
                 collidingBlocks = getCollidingBoundingBoxes(player);
                 adjusted = !collidingBlocks.empty(); // If collisions still exist, continue adjusting
                 iterationCount++; // Increment iteration count to avoid infinite loops
-                LOG_INFO("Iteration: " + std::to_string(iterationCount) + " Adjusted: " + std::to_string(adjusted));
+                LOG(LOG_INFO, "Iteration: %s, Adjusted: %s", std::to_string(iterationCount), std::to_string(adjusted));
+
             }
         }
 
